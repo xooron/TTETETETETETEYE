@@ -1,0 +1,687 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Casino Bonus</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Onest:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: compact single column for a Telegram Mini App on a black base with soft blurred color orbs behind.
+   Header (title + "by Danil") and a glinting rule, a swipeable banner slider, a promo-code glass card,
+   the three featured offer cards (yellow/green chips + action strip), then grouped glass lists of
+   partner casinos, each row: emoji tile, name, small "Перейти" button on the right. */
+:root {
+  --bg: #0a0908;
+  --fg: #efe9e2;
+  --muted: #8d857c;
+  --dim: #6a625a;
+  --orange: #de7a34;
+  --on-orange: #1c0e04;
+  --yellow: rgba(222, 184, 84, 0.9);
+  --on-yellow: #1d1606;
+  --green: rgba(44, 134, 90, 0.88);
+  --on-green: #eaf8f0;
+  --glass: rgba(255, 255, 255, 0.045);
+  --glass-strong: rgba(255, 255, 255, 0.07);
+  --glass-line: rgba(255, 255, 255, 0.09);
+  --glass-hi: rgba(255, 255, 255, 0.14);
+  --orange-glass: rgba(222, 122, 52, 0.16);
+  --orange-line: rgba(222, 122, 52, 0.38);
+  --orb-orange: rgba(222, 122, 52, 0.30);
+  --orb-green: rgba(44, 134, 90, 0.22);
+  --orb-gold: rgba(222, 184, 84, 0.14);
+  --sheen: rgba(255, 255, 255, 0.18);
+  --shadow: rgba(0, 0, 0, 0.45);
+  --font-display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Onest', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.4;
+  padding-block: 18px 28px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Soft colored light behind the glass */
+.orbs {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(55px);
+  will-change: transform;
+}
+.orb-a { width: 240px; height: 240px; top: -70px; left: -80px; background: var(--orb-orange); animation: drift-a 18s ease-in-out infinite alternate; }
+.orb-b { width: 260px; height: 260px; top: 38%; right: -110px; background: var(--orb-green); animation: drift-b 22s ease-in-out infinite alternate; }
+.orb-c { width: 220px; height: 220px; bottom: -80px; left: 10%; background: var(--orb-gold); animation: drift-a 26s ease-in-out infinite alternate-reverse; }
+
+.wrap { position: relative; z-index: 1; max-width: 420px; margin-inline: auto; }
+
+/* Header */
+.logo {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 23px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  animation: fade 0.7s ease both;
+}
+.logo .accent { color: var(--orange); }
+
+.by {
+  margin: 4px 0 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--dim);
+  animation: fade 0.7s ease 0.1s both;
+}
+
+.rule {
+  position: relative;
+  height: 1px;
+  margin-top: 14px;
+  background: var(--glass-line);
+  overflow: hidden;
+}
+.rule::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, var(--orange), transparent);
+  transform: translateX(-90px);
+  animation: glint 6s ease-in-out infinite 1s;
+}
+
+.label {
+  margin: 20px 2px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  animation: fade 0.7s ease 0.15s both;
+}
+
+/* Slider */
+.slider { margin-top: 16px; animation: fade 0.7s ease 0.15s both; }
+.track {
+  display: flex;
+  gap: 10px;
+  padding-inline: 6%;
+  scroll-padding-inline: 6%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  cursor: grab;
+}
+.track::-webkit-scrollbar { display: none; }
+.track.drag { cursor: grabbing; }
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  min-width: 0;
+  max-width: 100%;
+  aspect-ratio: 1.7;
+  border-radius: 16px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  box-shadow: 0 10px 28px -12px var(--shadow);
+}
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+  pointer-events: none;
+}
+.dots { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+.dot {
+  width: 6px;
+  height: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 99px;
+  background: var(--glass-hi);
+  cursor: pointer;
+  transition: width 0.25s ease, background 0.25s ease;
+}
+.dot[aria-current="true"] { width: 18px; background: var(--orange); }
+.dot:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+/* Glass surface shared by cards and lists */
+.card, .promo, .rows {
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+}
+
+/* Promo code */
+.promo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px 12px 12px 14px;
+  background: linear-gradient(160deg, var(--orange-glass), var(--glass));
+  border: 1px solid var(--orange-line);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 var(--glass-hi), 0 10px 28px -12px var(--shadow);
+  animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) 0.2s both;
+}
+.promo-text { display: grid; gap: 2px; min-width: 0; }
+.promo-k { font-size: 10px; font-weight: 600; letter-spacing: 0.22em; color: var(--muted); }
+.promo-code {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 22px;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  user-select: all;
+  -webkit-user-select: all;
+  overflow-wrap: anywhere;
+}
+.promo-s { font-size: 12px; color: var(--muted); }
+
+.copy {
+  flex: none;
+  padding: 8px 14px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--fg);
+  background: var(--glass-strong);
+  border: 1px solid var(--glass-hi);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
+}
+.copy:hover { background: var(--glass-hi); }
+.copy:active { transform: scale(0.95); }
+.copy:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+.copy.ok { background: var(--green); color: var(--on-green); border-color: transparent; }
+
+/* Cards */
+.list { display: grid; gap: 11px; }
+
+.card {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  background: linear-gradient(160deg, var(--glass-strong), var(--glass));
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 var(--glass-hi), 0 10px 28px -12px var(--shadow);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+  animation: rise 0.65s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 100ms + 200ms);
+}
+.card:hover { transform: translateY(-2px); border-color: var(--glass-hi); }
+
+.brand {
+  margin: 0 3px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 15px;
+  letter-spacing: 0.1em;
+}
+
+.offer { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.chip {
+  position: relative;
+  flex: 1 1 100px;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 4px;
+  padding: 9px 12px;
+  border-radius: 11px;
+  border: 1px solid var(--glass-hi);
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+  overflow: hidden;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+.chip .unit { font-size: 12px; font-weight: 600; letter-spacing: 0.05em; }
+.chip-fs { background: var(--yellow); color: var(--on-yellow); flex-grow: 1.25; }
+.chip-pct { background: var(--green); color: var(--on-green); }
+
+.chip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg, transparent 30%, var(--sheen) 50%, transparent 70%);
+  transform: translateX(-130%);
+  animation: sheen 7s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 0.9s + 2s);
+  pointer-events: none;
+}
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 6px 6px 12px;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: 11px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+.hint { min-width: 0; font-size: 12px; color: var(--muted); }
+
+.go {
+  flex: none;
+  padding: 7px 16px;
+  background: var(--orange);
+  color: var(--on-orange);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 9px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+.go:hover { filter: brightness(1.08); }
+.go:active { transform: scale(0.95); }
+.go:focus-visible { outline: 2px solid var(--fg); outline-offset: 2px; }
+
+/* Partner groups */
+.groups { display: grid; gap: 4px; }
+.group {
+  animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i) * 70ms + 450ms);
+}
+.ghead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 20px 2px 8px;
+}
+.ghead .label { margin: 0; animation: none; }
+.badge {
+  flex: none;
+  padding: 3px 9px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--on-yellow);
+  background: var(--yellow);
+  border: 1px solid var(--glass-hi);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+.copy.code { font-family: var(--font-display); font-weight: 800; letter-spacing: 0.04em; padding: 5px 11px; }
+.gnote { margin: -2px 3px 8px; font-size: 12px; color: var(--muted); }
+
+.rows {
+  background: linear-gradient(160deg, var(--glass-strong), var(--glass));
+  border: 1px solid var(--glass-line);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 var(--glass-hi), 0 10px 28px -12px var(--shadow);
+  overflow: hidden;
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 8px 8px 10px;
+  transition: background 0.2s ease;
+}
+.row + .row { border-top: 1px solid var(--glass-line); }
+.row:hover { background: var(--glass); }
+.emo {
+  flex: none;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  line-height: 1;
+  background: var(--glass);
+  border: 1px solid var(--glass-line);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 var(--glass-hi);
+}
+.rname { flex: 1; min-width: 0; display: grid; }
+.rname b { font-weight: 600; font-size: 14px; overflow-wrap: anywhere; }
+.rname small { font-size: 11px; color: var(--muted); }
+.go.sm { padding: 6px 14px; font-size: 12px; border-radius: 8px; }
+
+.note {
+  margin: 22px 3px 0;
+  font-size: 11px;
+  color: var(--dim);
+  animation: fade 0.8s ease 0.9s both;
+}
+
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes glint {
+  0%, 15% { transform: translateX(-90px); }
+  55%, 100% { transform: translateX(460px); }
+}
+@keyframes sheen {
+  0%, 70% { transform: translateX(-130%); }
+  100% { transform: translateX(130%); }
+}
+@keyframes drift-a {
+  from { transform: translate(0, 0); }
+  to { transform: translate(40px, 50px); }
+}
+@keyframes drift-b {
+  from { transform: translate(0, 0); }
+  to { transform: translate(-50px, -40px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<div class="orbs" aria-hidden="true">
+  <div class="orb orb-a"></div>
+  <div class="orb orb-b"></div>
+  <div class="orb orb-c"></div>
+</div>
+
+<main class="wrap">
+  <h1 class="logo">Casino <span class="accent">Bonus</span></h1>
+  <p class="by">by Danil</p>
+  <div class="rule" aria-hidden="true"></div>
+
+  <section class="slider" aria-label="Акции">
+    <div class="track" id="track">
+      <div class="slide"><img src="img/jetton.jpg" alt="JetTon: крути и получи до $1000 без депозита" draggable="false"></div>
+      <div class="slide"><img src="img/tonplay.jpg" alt="Tonplay: кэшбэк 9,5%" draggable="false"></div>
+    </div>
+    <div class="dots">
+      <button class="dot" type="button" aria-label="Слайд 1" aria-current="true"></button>
+      <button class="dot" type="button" aria-label="Слайд 2" aria-current="false"></button>
+    </div>
+  </section>
+
+  <section class="promo" aria-label="Промокод">
+    <div class="promo-text">
+      <span class="promo-k">ПРОМОКОД</span>
+      <span class="promo-code">LUDOMANYA</span>
+      <span class="promo-s">Вводи при регистрации</span>
+    </div>
+    <button class="copy" type="button" data-code="LUDOMANYA">Копировать</button>
+  </section>
+
+  <div class="label">BONUS</div>
+
+  <section class="list">
+    <article class="card" style="--i:0">
+      <h2 class="brand">PANDA</h2>
+      <div class="offer">
+        <div class="chip chip-fs"><span>1500</span><span class="unit">FS</span></div>
+        <div class="chip chip-pct">225%</div>
+      </div>
+      <div class="action">
+        <span class="hint">Условия на сайте</span>
+        <a class="go" href="https://nymph-pahd4.com/adacpaqvuj" target="_blank" rel="noopener noreferrer">Перейти</a>
+      </div>
+    </article>
+
+    <article class="card" style="--i:1">
+      <h2 class="brand">JETTON</h2>
+      <div class="offer">
+        <div class="chip chip-fs"><span>250</span><span class="unit">FS</span></div>
+        <div class="chip chip-pct">425%</div>
+      </div>
+      <div class="action">
+        <span class="hint">Условия на сайте</span>
+        <a class="go" href="https://telegram.me/unity325bot?start=ciDOrXeJkEm" target="_blank" rel="noopener noreferrer">Перейти</a>
+      </div>
+    </article>
+
+    <article class="card" style="--i:2">
+      <h2 class="brand">APEX</h2>
+      <div class="offer">
+        <div class="chip chip-fs"><span>900</span><span class="unit">FS</span></div>
+        <div class="chip chip-pct">225%</div>
+      </div>
+      <div class="action">
+        <span class="hint">Условия на сайте</span>
+        <a class="go" href="https://9reenhouse-7apeks.com/ad1uhvdzup" target="_blank" rel="noopener noreferrer">Перейти</a>
+      </div>
+    </article>
+  </section>
+
+  <div class="groups" id="groups"></div>
+
+  <p class="note">18+. Играйте ответственно. Условия каждого бонуса смотрите на сайте оператора.</p>
+</main>
+
+<script>
+(function () {
+  // Partner lists. Each item: [emoji, name, link, optional small hint].
+  var GROUPS = [
+    { title: 'Казино', note: 'Вводи промокод LUDOMANYA при регистрации', items: [
+      ['💵', 'Ezcash', 'https://ezc1.sh/r/i4bu66'],
+      ['🫎', 'MONEY-x', 'https://money-x.direct/r/rcgtdlrl4f'],
+      ['🌩', 'Trix Casino', 'https://trx.social/refs/biaos2b9rb3prere'],
+      ['🐉', 'Dragon', 'https://dg1.to/fq90mfrol'],
+      ['🥈', '1 WIN', 'https://lksi.pro/fbad2b'],
+      ['😢', 'Mellstroy casino', 'https://mznqhvk.life/?open=register&p=b1yu'],
+      ['💰', 'HOTSKINS', 'https://long-voyage.com/?i=1709479', '+150 ₽ за регистрацию'],
+      ['🧚‍♀️', 'JoyCasino', 'https://2004.swiftours.com/ru/registration?partner=p52933p3329754p1d27'],
+      ['💸', 'Ramenbet', 'https://2004.sparksvale.com/ru/registration?partner=p2004p39320p2b72']
+    ]},
+    { title: 'Линейка Royal', badge: '+50 FS', note: 'Промокод LUDOMANYA при регистрации', items: [
+      ['🦢', 'JET', 'https://jetway67.com/cee4a23b7'],
+      ['🥩', 'BEEF', 'https://beefway69.com/ce2062285'],
+      ['🐡', 'FUGU', 'https://fuguway610.com/cf29c8a5a'],
+      ['🦜', 'MARTIN', 'https://martinway66.com/ca2c0d1e7'],
+      ['🤴', 'FLAGMAN', 'https://flagmanway68.com/ccedc74c6'],
+      ['🐱', 'IRWIN', 'https://irwinway65.com/c17318826'],
+      ['👁', 'LEX', 'https://lexyway1.com/c6a1d680d'],
+      ['🥳', 'GIZBO', 'https://gizboway64.com/cca15dd5d'],
+      ['🦜', 'SOL', 'https://solway68.com/c16d4c47c'],
+      ['🦮', 'DRIP', 'https://dripway67.com/c7a62d3ba'],
+      ['🐈‍⬛', 'IZZI', 'https://izziway65.com/cb3307a43'],
+      ['🐵', 'FRESH', 'https://freshway66.com/c80951027'],
+      ['🍭', 'IRIS', 'https://irisroute64.com/c606d95a0', 'Новый проект'],
+      ['🥃', 'VODKA', 'https://vodka200032.com?id=19233'],
+      ['🚗', 'MOTOR', 'https://astral-overdrive.com/sxlctyesq'],
+      ['❇️', 'ATOM', 'https://vortex-lap.com/sizx76etz'],
+      ['🤩', 'VELORA', 'https://eternal-ascend.com/sqbwzy5ym']
+    ]},
+    { title: 'Линейка NOVA', items: [
+      ['🥰', 'ЕВА', 'https://string-26eva.com/adbr8xmdva'],
+      ['💎', 'КУШ', 'https://neo7-cr9t-ksh.com/adgc74bopl'],
+      ['💥', 'BANDA', 'http://7-8abda-modu1e.com/ad5bs29rs7'],
+      ['🐵', 'LEEBET', 'https://play-leebet-4th.com/adtlarezzr']
+    ]},
+    { title: 'Новым игрокам', badge: '100 FS', note: 'Введи код LUDOMANYA в поле активации до регистрации', items: [
+      ['🐘', 'GAMA', 'https://gutreimice.com/slhqkzcqt'],
+      ['🐫', 'R7', 'https://mystic-route.com/si3fvr3ia'],
+      ['💫', 'KOMETA', 'https://nebula-vectorial.com/sffdonx4y'],
+      ['🐃', 'KENT', 'https://reamuteana.com/shinmynd8'],
+      ['🐅', 'CAT', 'https://rainbow-highway.com/suiodctj5'],
+      ['🎰', 'ARKADA', 'https://fascinating-driveway.com/sccgg7pt4'],
+      ['👨‍👧‍👧', 'DADDY', 'https://tareutaild.com/smoqwzawn']
+    ]},
+    { title: 'Букмекеры', items: [
+      ['🐋', '1xbet', 'https://refpa-78460.com/L?tag=s_5792577m_1234c_Qq&site=5792577&ad=1234'],
+      ['🦞', 'Melbet', 'https://melbet-70227.pro?bf=4b2901775f184_14342223647']
+    ]},
+    { title: 'Housebets', code: 'CandidVoyage19', note: 'Промо при регистрации', items: [
+      ['😏', 'Housebets', 'https://www.housebets.com/r/CandidVoyage19']
+    ]}
+  ];
+
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  var html = GROUPS.map(function (g, gi) {
+    var extra = '';
+    if (g.badge) extra = '<span class="badge">' + esc(g.badge) + '</span>';
+    if (g.code) extra = '<button class="copy code" type="button" data-code="' + esc(g.code) + '">' + esc(g.code) + '</button>';
+    var rows = g.items.map(function (it) {
+      return '<div class="row"><span class="emo" aria-hidden="true">' + it[0] + '</span>' +
+        '<div class="rname"><b>' + esc(it[1]) + '</b>' + (it[3] ? '<small>' + esc(it[3]) + '</small>' : '') + '</div>' +
+        '<a class="go sm" href="' + esc(it[2]) + '" target="_blank" rel="noopener noreferrer">Перейти</a></div>';
+    }).join('');
+    return '<section class="group" style="--i:' + gi + '">' +
+      '<div class="ghead"><div class="label">' + esc(g.title) + '</div>' + extra + '</div>' +
+      (g.note ? '<p class="gnote">' + esc(g.note) + '</p>' : '') +
+      '<div class="rows">' + rows + '</div></section>';
+  }).join('');
+  document.getElementById('groups').innerHTML = html;
+
+  // Telegram Mini App hooks. They run only when the page is opened inside Telegram
+  // and the Telegram WebApp script is present; elsewhere the page works as a normal site.
+  var tg = window.Telegram && window.Telegram.WebApp;
+  if (tg) {
+    try {
+      tg.ready();
+      tg.expand();
+      tg.setHeaderColor('#0a0908');
+      tg.setBackgroundColor('#0a0908');
+    } catch (e) {}
+  }
+
+  // Slider: swipe on touch, drag with mouse, dots follow the scroll position.
+  var track = document.getElementById('track');
+  var dots = Array.prototype.slice.call(document.querySelectorAll('.dot'));
+  function step() { return track.children[0].offsetWidth + 10; }
+  function current() { return Math.max(0, Math.min(dots.length - 1, Math.round(track.scrollLeft / step()))); }
+  function sync() {
+    var i = current();
+    dots.forEach(function (d, k) { d.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+  }
+  track.addEventListener('scroll', sync, { passive: true });
+  dots.forEach(function (d, i) {
+    d.addEventListener('click', function () { track.scrollTo({ left: i * step(), behavior: 'smooth' }); });
+  });
+
+  var down = false, startX = 0, startLeft = 0;
+  track.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return;
+    down = true;
+    startX = e.clientX;
+    startLeft = track.scrollLeft;
+    track.style.scrollSnapType = 'none';
+    track.classList.add('drag');
+    try { track.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  track.addEventListener('pointermove', function (e) {
+    if (down) track.scrollLeft = startLeft - (e.clientX - startX);
+  });
+  function endDrag() {
+    if (!down) return;
+    down = false;
+    track.classList.remove('drag');
+    var i = current();
+    track.style.scrollSnapType = '';
+    track.scrollTo({ left: i * step(), behavior: 'smooth' });
+  }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+
+  // Copy buttons (promo codes)
+  function copyCode(btn) {
+    var text = btn.getAttribute('data-code');
+    if (!btn.hasAttribute('data-label')) btn.setAttribute('data-label', btn.textContent);
+    function done(msg) {
+      btn.textContent = msg;
+      btn.classList.add('ok');
+      clearTimeout(btn._t);
+      btn._t = setTimeout(function () {
+        btn.textContent = btn.getAttribute('data-label');
+        btn.classList.remove('ok');
+      }, 1600);
+    }
+    function fallback() {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done(ok ? 'Скопировано' : 'Выделите код');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function () { done('Скопировано'); }, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  document.addEventListener('click', function (ev) {
+    var t = ev.target;
+    if (!t || !t.closest) return;
+
+    var copyBtn = t.closest('button.copy');
+    if (copyBtn) { copyCode(copyBtn); return; }
+
+    var a = t.closest('a.go');
+    if (!a || !tg) return;
+    ev.preventDefault();
+    try { tg.HapticFeedback.impactOccurred('light'); } catch (e) {}
+    var url = a.href;
+    try {
+      if (/^https?:\/\/(t\.me|telegram\.me)\//.test(url) && tg.openTelegramLink) {
+        tg.openTelegramLink(url.replace('telegram.me', 't.me'));
+      } else {
+        tg.openLink(url);
+      }
+    } catch (e) { window.open(url, '_blank'); }
+  });
+})();
+</script>
+
+</body></html>
